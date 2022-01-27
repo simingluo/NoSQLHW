@@ -1,0 +1,216 @@
+db.createCollection("customer_order", {
+		validator: {
+	 	$jsonSchema: {
+			bsonType: "object",
+			required: ["customer_numb", "customer_first_name", "customer_last_name", "customer_street", "customer_city", "customer_state", "customer_zip", "customer_phone", "order"],
+		  	properties: {
+				customer_numb:{
+					bsonType: "int",
+				  description: "must be an integer and is required"	
+					},
+				customer_first_name: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				
+				customer_last_name: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+
+				customer_street: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+
+				customer_city: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+
+        customer_state: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				customer_zip: {
+					bsonType: "int",
+					minimum: 00501,
+         	maximum: 99950,
+	        description: "must be an integer between 00501 and 99950 and is required"
+				   },
+   				customer_phone: {
+					bsonType: "string",
+				description: "must be an integer and is required"
+				   },
+				 order: {
+            	bsonType: "object",
+            	required: [ "order_numb", "order_date", "credit_card_numb", "credit_card_exp_date","order_complete", "pickup_or_ship"],
+           	  properties: {
+             	order_numb: {
+    	            bsonType: "int",
+                	description: "must be an integer and is required"
+              	},
+              	order_date: {
+        	        bsonType: "string",
+         	        description: "must be an string and is required"
+                },
+                credit_card_numb: {
+        	        bsonType: "string",
+         	        description: "must be an string and is required"
+              	},
+              	credit_card_exp_date: {
+        	        bsonType: "string",
+         	        description: "must be an string and is required"
+                },
+              	order_complete: {
+        	        bsonType: "bool",
+         	        description: "is a boolean indicating whether this is a completed order, required"
+                },
+              	pickup_or_ship: {
+        	        enum: ["pickup", "ship", null],
+         	        description: "can only be one of the enum values and is required"
+ 	              }
+           }
+				
+		}
+    }
+  }
+  }
+} )
+
+db.customer_order.drop()
+
+db.customer_order.insertMany(
+[{customer_numb:1, customer_first_name: "Bob", customer_last_name: "Dylan", customer_street: "332 E Dodge St", customer_city: "Mesa",  customer_state: "AZ", customer_zip: 85205, customer_phone: "602-556-3738",
+ order: { order_numb: 1, order_date: new Date("2020-01-28"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" } },
+
+{customer_numb:1, customer_first_name: "Bob", customer_last_name: "Dylan", customer_street: "332 E Dodge St", customer_city: "Mesa",  customer_state: "AZ", customer_zip: 85205, customer_phone: "602-556-3738",
+ order: { order_numb: 2, order_date: new Date("2021-05-26"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" } },
+
+{customer_numb:1, customer_first_name: "Bob", customer_last_name: "Dylan", customer_street: "332 E Dodge St", customer_city: "Mesa",  customer_state: "AZ", customer_zip: 85205, customer_phone: "602-556-3738",
+ order: { order_numb: 3, order_date: new Date("2022-01-06"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" } },
+
+{customer_numb:2, customer_first_name: "Kelly", customer_last_name: "Clarkson", customer_street: "325 W Adams Blvd", customer_city: "Los Angeles",  customer_state: "CA", customer_zip: 90007, customer_phone: "213-5516-9878",
+ order: { order_numb: 9, order_date: new Date("2021-10-11"),credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: false,pickup_or_ship: "pickup" } },
+
+{customer_numb:2, customer_first_name: "Kelly", customer_last_name: "Clarkson", customer_street: "325 W Adams Blvd", customer_city: "Los Angeles",  customer_state: "CA", customer_zip: 90007, customer_phone: "213-5516-9878",
+ order: { order_numb: 10, order_date: new Date("2021-10-11"),credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: true,pickup_or_ship: "pickup" } },
+
+{customer_numb:2, customer_first_name: "Kelly", customer_last_name: "Clarkson", customer_street: "325 W Adams Blvd", customer_city: "Los Angeles",  customer_state: "CA", customer_zip: 90007, customer_phone: "213-5516-9878",
+ order: { order_numb: 11, order_date: new Date("2021-10-11"),credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: true,pickup_or_ship: "pickup" } }
+
+])
+
+
+
+db.createCollection("customers2", {
+		validator: {
+	 	$jsonSchema: {
+			bsonType: "object",
+		 	required: ["customer_numb", "customer_first_name", "customer_last_name", "customer_street", "customer_city", "customer_state", "customer_zip", "customer_phone"],
+			properties: {
+				customer_numb:{
+					bsonType: "int",
+				  description: "must be an integer and is required"	
+					},
+				customer_first_name: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				customer_last_name: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				customer_street: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				customer_city: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+        customer_state: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+				   },
+				customer_zip: {
+					bsonType: "int",
+					minimum: 00501,
+          maximum: 99950,
+				  description: "must be an integer and is required"
+				   },
+   			customer_phone: {
+					bsonType: "string",
+				  description: "must be an integer and is required"
+				   }
+		}
+}
+      }
+} )
+
+db.createCollection("order", {
+		validator: {
+	 	$jsonSchema: {
+			bsonType: "object",
+			required: ["order_numb", "customer_numb", "order_date", "credit_card_numb", "credit_card_exp_date", "order_complete", "pickup_or_ship"],
+ 			properties: {
+				order_numb: {
+					bsonType: "int",
+				  description: "must be an integer and is required"	
+				},
+				
+				customer_number: {
+ 					bsonType: "int",
+				  description: "must be an integer and is required"	
+				},
+
+				order_date: {
+					bsonType: "string", 
+				  description: "must be a string and is required"	
+				},
+
+				credit_card_numb: {
+					bsonType: "string",
+				  description: "must be a string and is required"
+ 				}, 
+
+				credit_card_exp_date: {
+					bsonType: "string", 
+				  description: "must be a string and is required"					
+        },
+				
+				order_complete: {
+					bsonType: "bool", 
+				  description: "must be True or False and is required"
+				},
+				
+				pickup_or_ship: {
+					enum:["pickup", "ship", null], 
+					description: "can only be one of the enum values and is required"
+				}
+
+		}	    
+         }
+    }
+})
+
+db.customers2.insertMany ([ 
+  {customer_numb:1, customer_first_name: "Bob", customer_last_name: "Dylan", customer_street: "332 E Dodge St", customer_city: "Mesa",  customer_state: "AZ", customer_zip: 85205, customer_phone: "602-556-3738"},
+  {customer_numb:2, customer_first_name: "Kelly", customer_last_name: "Clarkson", customer_street: "325 W Adams Blvd", customer_city: "Los Angeles",  customer_state: "CA", customer_zip: 90007, customer_phone: "213-5516-9878"}
+])
+
+db.order.insertMany ([ 
+{ order_numb: 1, customer_numb:1, order_date: new Date("2020-01-28"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" },
+{ order_numb: 2, customer_numb:1, order_date: new Date("2021-05-26"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" } ,
+{ order_numb: 3, customer_numb:1, order_date: new Date("2022-01-06"), credit_card_numb: "4117-3869-5566-2796", credit_card_exp_date: new Date("2024-03-01"),order_complete: true,pickup_or_ship: "ship" },
+{ order_numb: 9, customer_numb:2, order_date: new Date("2021-10-11"), credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: false,pickup_or_ship: "pickup" },
+{ order_numb: 10, customer_numb:2, order_date: new Date("2021-10-11"), credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: true,pickup_or_ship: "pickup" },
+{ order_numb: 11, customer_numb:2, order_date: new Date("2021-10-11"), credit_card_numb: "5511-3849-5787-6642", credit_card_exp_date: new Date("2025-02-01"),order_complete: true,pickup_or_ship: "pickup" }
+])
+
+db.customers2.aggregate([{$lookup: {from: "order",localField: "customer_numb",foreignField: "customer_numb ",as: "order_docs"}}])
+
+
+
+
+
