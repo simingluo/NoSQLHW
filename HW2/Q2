@@ -1,0 +1,62 @@
+db.createCollection("students", {
+	validator: {
+		$jsonSchema: {
+		  bsonType: "object",
+		  required: [ "name", "contact", "address"],
+		    properties: {
+			    name: {
+				    bsonType: "string",
+				    description: "must be a string and is required"
+			    },
+			    contact: {
+         		bsonType: "string",
+				    description: "must be a string and is required"
+			    },
+		      address: {
+			      bsonType: "object",
+			      required: ["zipcode","city"],
+              properties: {
+			          street: {
+				          bsonType: "string",
+				          description: "must be a string if the field exists"
+			          },
+			          city: {
+				          bsonType: "string",
+				          description: "must be a string and is required"
+			          },
+			          state: {
+ 				          bsonType: "string",
+			            description: "must be a string if the field exists"
+				        },
+			          zipcode: {
+				          bsonType: "int",
+				          minimum: 00501,
+         				  maximum: 99950,
+				          description: "must be an integer between 00501 and 99950 and is required"
+				        }
+			  }
+			}
+		  }
+	   }
+	}
+} )
+
+
+db.students.insertMany([
+ {name: "Jazzy Law", contact: "605-688-6653", address: {street:"325 W Adams", city:"Los Angeles", state: "CA", zipcode: 90007}},
+ {name: "Mattew Lee", contact: "781-698-9960", address: {street:"413 E Huron St.", city: "Ann Arbor", state: "MI", zipcode: 48104}},
+ {name: "Ginny Yu", contact: "214-789-9760", address: {street:"334 W Adams",city: "Los Angeles", state: "CA", zipcode: 90007}},
+ {name: "Catherine Chris", contact: "220-364-5510", address: {street:"E Dodge St.", city: "Mesa", state: "AZ", zipcode: 85205}},
+ {name: "Kat Dylan", contact: "366-555-4438", address: {street:"424 119th St", city: "New York", state: "NY", zipcode:10027 }},
+ {name: "Thomas Muller", contact: "213-550-9870", address: {street:"33 W End", city: "New York", state: "NY", zipcode: 10003}},
+ {name: "Ariana Grande", contact: "213-398-4434", address: {street:"343 Beverly Blvd",city: "Los Angeles", state: "CA", zipcode: 90210}},
+ {name: "Wen Liu", contact: "917-517-9898", address: {street:"59 5th Avenue",city: "New York", state: "NY", zipcode: 10091}},
+ {name: "Lola La", contact: "373-551-8800", address: {street:"20 Madison Blvd", city: "San Francisco", state: "CA", zipcode: 94016}},
+ {name: "Chandler Bing", contact: "917-551-7980", address: {street:"Central Perk",city: "New York", state: "NY", zipcode: 10013}}
+])
+
+db.students.createIndex({contact: 1})
+db.students.find({contact: "917-551-7980"}, {address: 1})
+db.students.find({contact: "917-551-7980"}, {address: 1}).explain("executionStats")
+
+
