@@ -5,7 +5,14 @@ db.orders.aggregate([
 {$group: {_id:"$productName", sumQuantity:{$sum:"$quantity"}}}
 ])
 
-only one stage $group
+Only one stage $group
+
+Output:
+[
+  { _id: 'Iron rod', sumQuantity: 75 },
+  { _id: 'Steel beam', sumQuantity: 60 }
+]
+
 
 
 b)
@@ -14,7 +21,14 @@ db.orders.aggregate([
 {$group: {_id: "$productName", sumQuantity: {$sum: "$quantity"}}}
 ])
 
-two stages $match -> $group 
+Two stages $match -> $group 
+
+Output:
+[
+  { _id: 'Iron rod', sumQuantity: 60 },
+  { _id: 'Steel beam', sumQuantity: 50 }
+]
+
 
 c)
 db.orders.aggregate( [
@@ -22,8 +36,15 @@ db.orders.aggregate( [
 {$sort: {_id:1}}
 ])
 
-two stages $group -> $sort
+Two stages $group -> $sort
 
+Output:
+[
+  { _id: [ 'Iron rod', 'new' ], sumQuantity: 15 },
+  { _id: [ 'Iron rod', 'urgent' ], sumQuantity: 60 },
+  { _id: [ 'Steel beam', 'new' ], sumQuantity: 10 },
+  { _id: [ 'Steel beam', 'urgent' ], sumQuantity: 50 }
+]
 
 d)
 db.orders.aggregate([
@@ -32,10 +53,14 @@ db.orders.aggregate([
 {$limit:3}
 ])
 
-three stages $group -> $sort -> $limit
+Three stages $group -> $sort -> $limit
 
-
-
+Output:
+[
+  { _id: [ 'Iron rod', 'urgent' ], sumQuantity: 60 },
+  { _id: [ 'Iron rod', 'new' ], sumQuantity: 15 },
+  { _id: [ 'Steel beam', 'urgent' ], sumQuantity: 50 }
+]
 
 
 
