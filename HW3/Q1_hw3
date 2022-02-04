@@ -1,0 +1,41 @@
+Q1
+
+a)
+db.orders.aggregate([
+{$group: {_id:"$productName", sumQuantity:{$sum:"$quantity"}}}
+])
+
+only one stage $group
+
+
+b)
+db.orders.aggregate([
+{$match: {status: "urgent"}},
+{$group: {_id: "$productName", sumQuantity: {$sum: "$quantity"}}}
+])
+
+two stages $match -> $group 
+
+c)
+db.orders.aggregate( [
+{$group: {_id: ["$productName", "$status"], sumQuantity: {$sum: "$quantity"}}},
+{$sort: {_id:1}}
+])
+
+two stages $group -> $sort
+
+
+d)
+db.orders.aggregate([
+{$group: {_id: ["$productName", "$status"], sumQuantity: {$sum: "$quantity"}}},
+{$sort: {_id:1, sumQuantity:-1}},
+{$limit:3}
+])
+
+three stages $group -> $sort -> $limit
+
+
+
+
+
+
