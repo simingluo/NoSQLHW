@@ -1,0 +1,35 @@
+Q2
+
+a)
+db.grades.distinct("class_id").length
+
+There are 501 different classes.
+
+
+b)
+db.grades.distinct("student_id").length
+
+There are 10000 students.
+
+
+c)
+db.grades.aggregate([
+{$match: {class_id: 212 }},
+{$unwind: "$scores"},
+{$match: {"scores.type": "exam"}},
+{$group: {_id: "$scores.type", avgScores: {$avg: "$scores.score"}}}
+])
+
+
+Output: [ { _id: 'exam', avgScores: 49.32031796981391 } ]
+
+
+d)
+db.grades.aggregate( [
+{$match: {class_id: 212}},
+{$unwind: "$scores"},
+{$match: {"scores.type": "exam"}},
+{$group: {_id:["$class_id", "$scores.type"], stdScores: {$stdDevSamp: "$scores.score" } } }
+])
+
+Output: [ { _id: [ 212, 'exam' ], stdScores: 29.345839403132846 } ]
