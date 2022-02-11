@@ -10,6 +10,7 @@ Output:
   {_id: '2018-12 ', montlySales: Decimal128("4366")},
   {_id: '2019-01 ', montlySales: Decimal128("3496")}
 ]
+-----------------------------------------------------------------------------
 
 ## Save as a new collection
 db.widgetSales.aggregate([
@@ -19,6 +20,14 @@ db.widgetSales.aggregate([
   {$sort: {_id:1}},
   {$out: "widgetSalesMonthlyAgg"}
 ])
+
+db.widgetSalesMonthlyAgg.find()
+
+Output:
+[
+  { _id: '2018-12 ', montlySales: Decimal128("4366") },
+  { _id: '2019-01 ', montlySales: Decimal128("3496") }
+]
 
 
 
