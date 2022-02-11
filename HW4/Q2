@@ -1,1 +1,25 @@
+## Filter by productName and output productName and status only
+
+db.orders.find( {productName: "Steel beam"}, { quantity:0, _id: 0 } ) 
+
+## Create index
+
+db.orders.createIndex({productName: 1, status:1})
+
+---------------------------------------------------------------------
+## Index size
+
+db.orders.stats().indexSizes
+
+Output:
+{ _id_: 20480, productName_1_status_1: 20480 }
+
+db.orders.totalIndexSize()
+
+Output:
+40960
+----------------------------------------------------------------------
+
+Since we filter by productName, if we query by index which is already in the memory, it should give the fastest query response.
+
 
