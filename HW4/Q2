@@ -1,6 +1,6 @@
 ## Filter by productName and output productName and status only
 
-db.orders.find( {productName: "Steel beam"}, { quantity:0, _id: 0 } ) 
+db.orders.find( {productName: "Steel beam"}, {productName:1, status:1, _id: 0 } ) 
 
 ## Create index
 
@@ -19,7 +19,7 @@ db.orders.totalIndexSize()
 Output:
 40960
 ----------------------------------------------------------------------
-
-Since we filter by productName, if we query by index which is already in the memory, it should give the fastest query response.
+A covered query is created. The query is statisfied entirely using created indexes and there is no need to examine any documents.
+In other words,since we filter by productName and output productName and status, if we query by indexes which are already in the memory, it should give the fastest query response.
 
 
